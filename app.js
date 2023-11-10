@@ -1,5 +1,5 @@
 /**
- * Function pour gérer la to do list.
+ * toDoList() manage the to do list.
  * 
  */
 function toDoList () {
@@ -7,8 +7,12 @@ function toDoList () {
     return list;
 }
 
+function increaseNumber (i) {
+    return i += 1;
+}
+
 /**
- * Function pour créer une tâche à intégrer à la to do list.
+ * createTask() create task to be integrated to the to do list.
  * @param {string} taskLabel 
  */
 function createTask (taskLabel) {
@@ -16,8 +20,8 @@ function createTask (taskLabel) {
         taskLabel.toString();
     }
     const li = document.createElement('li');
-    li.innerHTML = `<input class="form-check-input" type="checkbox" id="todo-1">
-    <label class="ms-2 form-check-label" for="todo-1">
+    li.innerHTML = `<input class="form-check-input" type="checkbox" id="todo-${increaseNumber(2)}">
+    <label class="ms-2 form-check-label" for="todo-${increaseNumber(2)}">
         ${taskLabel}
     </label>
     <label class="ms-auto btn btn-danger btn-sm">
@@ -28,8 +32,7 @@ function createTask (taskLabel) {
 }
 
 /**
- * Function which create a to do list from a server
- * 
+ * fetchToDOList() create a to do list from a server.
  */
 async function fetchToDOList () {
     try {
@@ -51,7 +54,7 @@ async function fetchToDOList () {
     }
 }
 /**
- * Function pour ajouter une tâche grâce au formulaire
+ * addTaskByButton() add task by form.
  */
 function addTaskByButton () {
     const formButton = document.querySelector("form");
@@ -65,6 +68,10 @@ function addTaskByButton () {
     })
 }
 
+/**
+ * setButtonInactive() display a button as "selected" and unselects the others.
+ * @param buttonName 
+ */
 function setButtonInactive(buttonName) {
     const btnAll = document.querySelector('div button:first-child'),
         btnToDo = document.querySelector('div button:nth-child(2)'),
@@ -81,17 +88,28 @@ function setButtonInactive(buttonName) {
     }
 }
 
+/**
+ * selectedFilter() manage events of filter buttons. Specifically the visibility of differents \<li> elements.
+ */
 function selectedFilter () {
     const btnAll = document.querySelector('div button:first-child'),
         btnToDo = document.querySelector('div button:nth-child(2)'),
         btnDone = document.querySelector('div button:last-child'),
-        lis = document.querySelector('li');
+        allLi = document.querySelectorAll('li');
+    Array.from(allLi);
+
+    for(const li of allLi) {
+        console.log(`!!! ${li} visible !`)
+    }
 
     btnAll.addEventListener("click", () => {
         setButtonInactive(btnToDo);
         setButtonInactive(btnDone);
         btnAll.classList.add('active');
-        
+        for(const li of allLi) {
+            li.style.visibility = 'visible';
+            console.log(`${li} visible !`)
+        }
     })
     btnToDo.addEventListener("click", () => {
         setButtonInactive(btnAll);
